@@ -63,7 +63,3 @@ The datasets are **not redistributed** here — download them from the Mendeley 
 ---
 
 ## Acknowledgements
-
-Datasets courtesy of the respective Mendeley Data contributors (Joypurhat and Munshiganj cohorts). This work targets ICCIT 2026.
-
-*Maintainer: `<your-name>` · Questions and issues welcome via the Issues tab.*
