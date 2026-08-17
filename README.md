@@ -51,104 +51,14 @@ The datasets are **not redistributed** here — download them from the Mendeley 
 
 ## Repository structure
 
-```
-.
-├── data/                      # place the CSV datasets here (not tracked)
-│   ├── Dengue_diseases_dataset_Joypurhat.csv
-│   └── Dengue_clinical_dataset_Munshiganj.csv
-├── notebook/
-│   └── dengue_cross_hospital.ipynb   # 8-cell pipeline (Colab-ready)
-├── results/
-│   ├── table1_internal_5model.csv
-│   ├── table2_bidirectional.csv
-│   ├── table3_shap_stability.csv
-│   ├── fig1_separability.(png|pdf)
-│   ├── fig2_reliability.(png|pdf)
-│   ├── fig3_before_after_bars.(png|pdf)
-│   └── fig4_shap_stability.(png|pdf)
-├── requirements.txt
-├── LICENSE
-└── README.md
-```
-
 ---
 
 ## Pipeline
-
-The notebook runs end-to-end in 8 cells:
-
-1. **Setup & data load** — mount data, read both CSVs.
-2. **Harmonize** — map to the common schema (age, sex, platelet, WBC + binary label); drop "Child" rows and missing values.
-3. **Separability diagnostic + Figure 1** — class-wise distributions and single-feature AUCs.
-4. **Five-model internal comparison (Table 1)** — Logistic Regression, Random Forest, Extra Trees, XGBoost, LightGBM via stratified 5-fold CV.
-5. **Bidirectional frozen cross-hospital validation + adaptation (Table 2)** — train on source, freeze, test on target both ways; Youden's J threshold + isotonic recalibration.
-6. **Reliability diagrams (Figure 2)** — before/after calibration.
-7. **Sensitivity/precision bars (Figure 3)** — before/after adaptation.
-8. **Cross-site SHAP stability (Figure 4 + Table 3)** — feature-importance comparison and Spearman correlation.
 
 ---
 
 ## Installation
 
-```bash
-git clone https://github.com/<your-username>/when-auroc-lies.git
-cd when-auroc-lies
-pip install -r requirements.txt
-```
-
-`requirements.txt`:
-
-```
-pandas
-numpy
-scikit-learn
-xgboost
-lightgbm
-shap
-matplotlib
-scipy
-```
-
-## Usage
-
-- **Google Colab:** open `notebook/dengue_cross_hospital.ipynb`, mount Drive, set `DATA_DIR` to your folder, and run the cells in order.
-- **Local:** put the two CSVs in `data/`, adjust the paths in Cell 1, and run the notebook.
-
-All tables and figures are written to `results/` (figures at 600 dpi PNG + vector PDF).
-
----
-
-## Reproducibility notes
-
-- Random seed fixed at `42`; results are deterministic across runs (minor ±0.001 variation possible in boosting models).
-- No synthetic oversampling is used; class imbalance is handled with class weights only, so reported numbers reflect real records.
-- Standardization statistics are fit on the training partition only (no leakage).
-- The external model is **frozen** (trained on the source hospital only) before it is applied to the target hospital.
-
----
-
-## Citation
-
-If you use this code or analysis, please cite the paper (ICCIT 2026, under review):
-
-```bibtex
-@inproceedings{whenaurolies2026,
-  title     = {When AUROC Lies: Bidirectional Cross-Hospital Validation and
-               Recalibration of Routine-CBC Dengue Classifiers},
-  author    = {<Author names>},
-  booktitle = {Proc. Int. Conf. Computer and Information Technology (ICCIT)},
-  year      = {2026},
-  note      = {Under review}
-}
-```
-
-Please also cite the dataset sources (Mendeley DOIs above).
-
----
-
-## License
-
-Released under the MIT License (see `LICENSE`). The datasets retain their own licenses from the original Mendeley records.
 
 ---
 
